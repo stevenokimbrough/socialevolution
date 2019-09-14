@@ -40,14 +40,28 @@ def updateDistribution(population):
     return (mu,sigma)
 
 def runny(numRounds=100,mu=500,sigma=2600,popSize=50):
+    # initial popuulation, an array
+    pop = drawAVowel(n=popSize,mu = mu, sigma= sigma)
+    # initial list of mu values, mean
     muList=[mu]
     
     for round in range(numRounds):
-        newSigma = sigma
-        newMu = mu
-        pop = drawAVowel(n=popSize,mu = newMu, sigma= newSigma)
+        # Estimate the population
         (newMu,newSigma) = updateDistribution(pop)
+        # Record mu
         muList.append(newMu)
+        # Draw a single vowel from this distribution
+        vowel = drawAVowel(n=1, mu=newMu, 
+               sigma = newSigma)
+        # draw a random index value in the population
+        idx = np.random.randint(0,len(pop))
+        # Insert the vowel value at the index
+        pop[idx] = vowel
+#        newSigma = sigma
+#        newMu = mu
+        #pop = drawAVowel(n=popSize,mu = newMu, sigma= newSigma)
+        #(newMu,newSigma) = updateDistribution(pop)
+        #muList.append(newMu)
         
     return muList
 
@@ -367,6 +381,6 @@ if __name__ == '__main__':
 #    carol = VowelLibrary()
 #    print(carol.getVowelList())
 #    (name,mu,sigma) = (carol.getVowel('/i/'))
-    aMuList=runny(numRounds=1000000)
+    aMuList=runny(numRounds=100000)
     plotMu(aMuList)        
     
