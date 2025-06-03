@@ -108,7 +108,10 @@ end
 
 to walk-randomly
    set heading random-float 360
-   set togo 1 + random 3
+  if walk-type = "variable local"
+    [set togo 1 + random 3]
+  if walk-type = "levy-step"
+    [set togo levy-step]
 end
 
 to-report total-found
@@ -126,6 +129,26 @@ to-report total-found-types
   report dacount
 
 end
+
+to-report levy-step ;alpha min-step]
+  ;Got this from ChatGPT, "Bee Flight Patterns Overview"
+  ;In this function:
+  ;alpha controls the tail of the distribution (commonly between 1 and 3).
+  ;min-step sets the minimum step length to avoid infinitely small steps.
+  let u random-float 1.0
+  report min-step * (u ^ (-1 / alpha))
+end
+
+
+
+
+
+
+
+
+
+
+
 @#$#@#$#@
 GRAPHICS-WINDOW
 210
@@ -178,7 +201,7 @@ BUTTON
 165
 NIL
 go
-T
+NIL
 1
 T
 OBSERVER
@@ -189,10 +212,10 @@ NIL
 1
 
 SLIDER
-39
-200
-211
-233
+18
+172
+190
+205
 num-targets
 num-targets
 0
@@ -204,10 +227,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-27
-261
-199
-294
+20
+209
+192
+242
 time-steps
 time-steps
 0
@@ -219,10 +242,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-59
-333
-180
-378
+10
+247
+90
+292
 NIL
 total-found
 17
@@ -230,15 +253,55 @@ total-found
 11
 
 MONITOR
-33
-416
-158
-461
+91
+246
+201
+291
 NIL
 total-found-types
 17
 1
 11
+
+SLIDER
+10
+295
+182
+328
+alpha
+alpha
+1
+3
+3.0
+2
+1
+NIL
+HORIZONTAL
+
+SLIDER
+10
+332
+182
+365
+min-step
+min-step
+0.1
+4
+2.0
+0.1
+1
+NIL
+HORIZONTAL
+
+CHOOSER
+35
+390
+173
+435
+walk-type
+walk-type
+"variable local" "levy-step"
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
