@@ -287,7 +287,7 @@ min-step
 min-step
 0.1
 4
-2.0
+1.0
 0.1
 1
 NIL
@@ -301,7 +301,7 @@ CHOOSER
 walk-type
 walk-type
 "variable local" "levy-step"
-1
+0
 
 @#$#@#$#@
 ## WHAT IS IT?
