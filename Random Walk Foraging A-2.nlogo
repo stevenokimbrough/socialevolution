@@ -102,11 +102,12 @@ to step-search ;[n]
 ;    ]
 
     ;if [pcolor] of patch-here = green
-    if count targets in-radius 2 > 0
-    [let foundID [who] of one-of targets in-radius 2
+    if count targets with [found = False] in-radius 2 > 0
+    [let foundID [who] of one-of targets with [found = False] in-radius 2
     set found foundID
     ;print (word "found= " found)
-    ask turtle foundID [set color yellow]
+    ask turtle foundID [set color yellow
+      set found True]
     face home-nest
     set state "returning"]
 
@@ -126,6 +127,9 @@ to-report draw-step
        set step fixed-step-size ]
   if walk-type = "Levy" [
        set step levy-step ;alpha min-step
+  ]
+  if walk-type = "Exponential lambda" [
+       set step (random-exponential lambda) + 1
   ]
   report step
 end
@@ -315,11 +319,11 @@ HORIZONTAL
 CHOOSER
 43
 611
-181
+213
 656
 walk-type
 walk-type
-"Pearson" "Levy"
+"Pearson" "Levy" "Exponential lambda"
 1
 
 SLIDER
@@ -331,7 +335,7 @@ fixed-step-size
 fixed-step-size
 0
 10
-3.2
+1.0
 0.1
 1
 NIL
@@ -348,6 +352,21 @@ num-scouts
 100
 44.0
 1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+271
+513
+443
+546
+lambda
+lambda
+0.1
+10
+2.0
+0.1
 1
 NIL
 HORIZONTAL
